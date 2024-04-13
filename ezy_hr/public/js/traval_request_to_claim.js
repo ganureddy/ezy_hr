@@ -39,3 +39,32 @@ frappe.ui.form.on('Travel Request', {
             });
         });
     }
+
+
+
+
+
+
+
+frappe.ui.form.on("Groupby Salary Summary", "refresh", function(frm) {
+    frm.add_custom_button(__("Get Report "), function() {
+        return frappe.call({
+                method : "ezy_hr.group_salary_api.get_monthly_excel_report",
+                args:{
+                    "month":cur_frm.doc.month,
+                    "year":cur_frm.doc.year,
+                    "unit":cur_frm.doc.unit
+                },
+                callback: function(r) {
+                    console.log(r)
+                    // if (r.message==true){
+                        window.open("https://hrms.pauljohnhotels.com"+r.message.file_name, '_blank').focus();
+                    // }
+                    // else{
+                    //     console.log(r)
+                    // }
+        
+    }
+    })
+    })
+});
